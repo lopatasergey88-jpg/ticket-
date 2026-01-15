@@ -1,88 +1,129 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <title>Квиток</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+<meta charset="UTF-8">
+<title>Квиток</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #1f2933, #111827);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-        .ticket {
-            background: white;
-            width: 300px;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            text-align: center;
-        }
+    .ticket {
+        width: 320px;
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 25px 40px rgba(0,0,0,0.35);
+        position: relative;
+    }
 
-        .ticket h1 {
-            margin: 0 0 10px;
-        }
+    .ticket::before,
+    .ticket::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #111827;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
-        .status {
-            font-size: 14px;
-            color: green;
-            margin-bottom: 10px;
-        }
+    .ticket::before { left: -10px; }
+    .ticket::after  { right: -10px; }
 
-        .timer {
-            font-size: 20px;
-            font-weight: bold;
-        }
+    .header {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
 
-        .expired {
-            color: red;
-        }
-    </style>
+    .sub {
+        text-align: center;
+        font-size: 13px;
+        color: #6b7280;
+        margin-bottom: 14px;
+    }
+
+    .divider {
+        border-top: 2px dashed #e5e7eb;
+        margin: 15px 0;
+    }
+
+    .label {
+        font-size: 12px;
+        color: #6b7280;
+    }
+
+    .value {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .timer {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 700;
+        color: #16a34a;
+    }
+
+    .expired {
+        color: #dc2626;
+    }
+</style>
 </head>
 <body>
 
 <div class="ticket">
-    <h1>🎟 1 квиток</h1>
-    <div id="status" class="status">Квиток дійсний</div>
+    <div class="header">🎟 КВИТОК</div>
+    <div class="sub">Дійсний до завершення таймера</div>
+
+    <div class="divider"></div>
+
+    <div class="label">Статус</div>
+    <div id="status" class="value">Дійсний</div>
+
+    <div class="divider"></div>
+
+    <div class="label">Залишилось часу</div>
     <div id="timer" class="timer"></div>
 </div>
 
 <script>
-    // ЧАС ЗАКІНЧЕННЯ (зміни при потребі)
     const endTime = new Date();
-    endTime.setMinutes(endTime.getMinutes() + 10); // +10 хвилин
+    endTime.setMinutes(endTime.getMinutes() + 10);
 
-    const timerEl = document.getElementById("timer");
-    const statusEl = document.getElementById("status");
+    const timer = document.getElementById("timer");
+    const status = document.getElementById("status");
 
-    function updateTimer() {
-        const now = new Date();
-        const diff = endTime - now;
+    function update() {
+        const diff = endTime - new Date();
 
         if (diff <= 0) {
-            timerEl.textContent = "00:00:00";
-            statusEl.textContent = "Квиток недійсний";
-            statusEl.classList.add("expired");
+            timer.textContent = "00:00:00";
+            timer.classList.add("expired");
+            status.textContent = "Недійсний";
             return;
         }
 
-        const hours = Math.floor(diff / 1000 / 60 / 60);
-        const minutes = Math.floor(diff / 1000 / 60) % 60;
-        const seconds = Math.floor(diff / 1000) % 60;
+        const h = String(Math.floor(diff / 3600000)).padStart(2, "0");
+        const m = String(Math.floor(diff / 60000) % 60).padStart(2, "0");
+        const s = String(Math.floor(diff / 1000) % 60).padStart(2, "0");
 
-        timerEl.textContent =
-            String(hours).padStart(2, "0") + ":" +
-            String(minutes).padStart(2, "0") + ":" +
-            String(seconds).padStart(2, "0");
+        timer.textContent = `${h}:${m}:${s}`;
     }
 
-    updateTimer();
-    setInterval(updateTimer, 1000);
+    update();
+    setInterval(update, 1000);
 </script>
 
 </body>
