@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Квиток</title>
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont;
+  background: #f5f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.ticket {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 350px;
+}
+.status {
+  background: #e6f4ea;
+  color: #1e7f43;
+  padding: 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<div class="ticket">
+  <h3>1 квиток</h3>
+  <div class="status" id="timer">Завантаження…</div>
+</div>
+
+<script>
+const endTime = new Date().getTime() + (1*3600 + 29*60 + 22)*1000;
+
+function updateTimer() {
+  const now = new Date().getTime();
+  let diff = endTime - now;
+
+  if (diff <= 0) {
+    document.getElementById("timer").innerText = "Квиток недійсний";
+    return;
+  }
+
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+
+  document.getElementById("timer").innerText =
+    `Квиток дійсний — ${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+</script>
+
+</body>
+</html>
