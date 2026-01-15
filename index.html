@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Квиток</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
+        .ticket {
+            background: white;
+            width: 300px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .ticket h1 {
+            margin: 0 0 10px;
+        }
+
+        .status {
+            font-size: 14px;
+            color: green;
+            margin-bottom: 10px;
+        }
+
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .expired {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="ticket">
+    <h1>🎟 1 квиток</h1>
+    <div id="status" class="status">Квиток дійсний</div>
+    <div id="timer" class="timer"></div>
+</div>
+
+<script>
+    // ЧАС ЗАКІНЧЕННЯ (зміни при потребі)
+    const endTime = new Date();
+    endTime.setMinutes(endTime.getMinutes() + 10); // +10 хвилин
+
+    const timerEl = document.getElementById("timer");
+    const statusEl = document.getElementById("status");
+
+    function updateTimer() {
+        const now = new Date();
+        const diff = endTime - now;
+
+        if (diff <= 0) {
+            timerEl.textContent = "00:00:00";
+            statusEl.textContent = "Квиток недійсний";
+            statusEl.classList.add("expired");
+            return;
+        }
+
+        const hours = Math.floor(diff / 1000 / 60 / 60);
+        const minutes = Math.floor(diff / 1000 / 60) % 60;
+        const seconds = Math.floor(diff / 1000) % 60;
+
+        timerEl.textContent =
+            String(hours).padStart(2, "0") + ":" +
+            String(minutes).padStart(2, "0") + ":" +
+            String(seconds).padStart(2, "0");
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>
