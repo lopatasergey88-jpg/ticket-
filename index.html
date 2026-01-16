@@ -56,9 +56,22 @@ body{
     inset 0 0 0 1px #f1f5f9;
 }
 
-.logo img{
-  width:44px;
-  height:44px;
+.logo{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:#ffffff;
+  position:absolute;
+  top:-32px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  box-shadow:
+    0 8px 20px rgba(0,0,0,.18),
+    inset 0 0 0 1px #e5e7eb;
 }
 
 /* ===== TEXT ===== */
@@ -145,10 +158,21 @@ body{
 <div class="ticket">
 
   <!-- LOGO -->
-  <div class="logo">
-    <!-- заміни на svg/png логотип МЕТ -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Monobank_logo.svg">
-  </div>
+ <div class="logo">
+  <svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+    <!-- Фон -->
+    <rect x="0" y="0" width="44" height="44" rx="10" fill="#ffffff"/>
+
+    <!-- Іконка транспорту -->
+    <rect x="8" y="10" width="28" height="18" rx="4" fill="#2563eb"/>
+    <rect x="12" y="14" width="8" height="6" rx="1" fill="#ffffff"/>
+    <rect x="24" y="14" width="8" height="6" rx="1" fill="#ffffff"/>
+
+    <!-- Колеса -->
+    <circle cx="14" cy="30" r="3" fill="#111827"/>
+    <circle cx="30" cy="30" r="3" fill="#111827"/>
+  </svg>
+</div>
 
   <div class="title">Миколаївелектротранс Тролейбус</div>
   <div class="date" id="date"></div>
@@ -163,7 +187,20 @@ body{
   <div class="sep"></div>
 
   <div class="qr-wrap">
-    <div id="qrcode"></div>
+    <div class="qr-wrap">
+  <div class="qr-box">
+    <canvas id="qr"></canvas>
+
+    <!-- Логотип у центрі -->
+    <div class="qr-logo">
+      <svg width="28" height="28" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="34" height="34" rx="9" fill="#2563eb"/>
+        <path d="M11 29V15h3l4 7 4-7h3v14h-3v-8l-4 6h-.5l-4-6v8z" fill="#fff"/>
+        <path d="M29 15h4v3h-4v11h-3V18h-4v-3h7z" fill="#fff"/>
+      </svg>
+    </div>
+  </div>
+</div>
   </div>
 
   <div class="number">Номер: <strong id="num"></strong></div>
