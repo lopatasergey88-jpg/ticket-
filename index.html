@@ -107,7 +107,7 @@ body {
     <div class="big">1 КВИТОК</div>
 
     <div id="status" class="status">
-        ⏺ Квиток дійсний —
+     ⚪️   ⏺ Квиток дійсний —
         <span id="timer"></span>
     </div>
 
@@ -119,7 +119,7 @@ body {
 
     <div class="number">Номер: 671 062</div>
 
-    <div class="note">DEMO-версія</div>
+    <div class="note"></div>
 </div>
 
 <!-- QR library -->
@@ -147,9 +147,9 @@ function tick(){
 tick();
 setInterval(tick,1000);
 
-/* ===== QR (DEMO) ===== */
+/* ===== QR ===== */
 new QRCode(document.getElementById("qrcode"), {
-    text: "DEMO-TICKET-671062-2026-01-16",
+    text: "-TICKET-671062-2026-01-16",
     width: 200,
     height: 200,
     colorDark: "#000000",
