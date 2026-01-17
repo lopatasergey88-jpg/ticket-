@@ -205,7 +205,6 @@ body{
 
   <div class="number">Номер: <strong id="num"></strong></div>
 </div>
-
 <!-- QR library -->
 <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 <script>
@@ -250,11 +249,7 @@ new QRCode(document.getElementById("qrcode"),{
   height:190,
   correctLevel:QRCode.CorrectLevel.H
 });
-</script>
-
-</body>
-</html>
-.qr-box{
+  .qr-box{
   position:relative;
   width:210px;
   height:210px;
@@ -283,3 +278,7 @@ new QRCode(document.getElementById("qrcode"),{
   border-radius:12px;
   box-shadow:0 2px 6px rgba(0,0,0,.18);
 }
+</script>
+
+</body>
+</html>
