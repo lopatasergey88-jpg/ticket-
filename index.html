@@ -223,8 +223,7 @@ const now = new Date();
 const months = ["січня","лютого","березня","квітня","травня","червня","липня","серпня","вересня","жовтня","листопада","грудня"];
 document.getElementById("date").innerText =
   `Придбано ${now.getDate()} ${months[now.getMonth()]} о ` +
-  now.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"});
-
+  now.toLocaleTimeString("uk-UA",{hour:"2-digit",minute:"2-digit"}); 
 /* ===== NUMBER ===== */
 document.getElementById("num").innerText =
   Math.floor(100000 + Math.random()*900000);
