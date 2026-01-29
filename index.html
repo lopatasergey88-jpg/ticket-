@@ -13,139 +13,133 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.wrapper {
-    padding: 20px;
-}
-
+/* контейнер */
 .ticket {
+    width: 360px;
+    margin: 20px auto;
     background: #fff;
     border-radius: 24px;
-    padding: 24px 20px;
-    max-width: 360px;
-    margin: auto;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-.ticket:before,
-.ticket:after {
-    content: "";
-    position: absolute;
-    left: -10px;
-    width: 20px;
-    height: 20px;
-    background: #f2f2f7;
-    border-radius: 50%;
-}
-
-.ticket:before { top: 45%; }
-.ticket:after  { bottom: 45%; }
-
-.title {
+/* верх */
+.header {
+    background: linear-gradient(180deg, #0a58ff, #003fc7);
+    color: white;
     text-align: center;
+    padding: 18px 10px;
     font-size: 18px;
     font-weight: 600;
 }
 
-.sub {
+/* тіло */
+.content {
+    padding: 20px;
     text-align: center;
+}
+
+.sub {
     color: #8e8e93;
-    margin-top: 6px;
+    font-size: 14px;
+    margin-bottom: 6px;
 }
 
 .count {
-    text-align: center;
-    font-size: 36px;
+    font-size: 34px;
     font-weight: 700;
-    margin: 20px 0;
+    margin: 10px 0 18px;
 }
 
+/* таймер */
 .timer {
-    background: #e6f5ef;
-    color: #1a7f5a;
-    padding: 12px;
+    background: #e7f0ff;
+    color: #0a58ff;
+    padding: 14px;
     border-radius: 14px;
     font-weight: 600;
+    margin-bottom: 22px;
+    font-size: 16px;
+}
+
+/* QR */
+.qr-box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 12px;
+    display: inline-block;
+    box-shadow: inset 0 0 0 1px #eee;
+}
+
+/* низ */
+.footer {
     text-align: center;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: .6; }
-    100% { opacity: 1; }
-}
-
-.qr {
-    margin: 25px auto;
-    width: 220px;
-}
-
-.number {
-    text-align: center;
+    padding: 14px;
+    font-size: 14px;
     color: #8e8e93;
-    font-size: 15px;
+    border-top: 1px dashed #ddd;
 }
 </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <div class="ticket">
-        <div class="title">Миколаївелектротранс</div>
+<div class="ticket">
+
+    <div class="header">
+        Міський електротранспорт
+    </div>
+
+    <div class="content">
         <div class="sub" id="buyTime"></div>
 
         <div class="count">1 КВИТОК</div>
 
         <div class="timer" id="timer"></div>
 
-        <div id="qrcode" class="qr"></div>
-
-        <div class="number" id="ticketNum"></div>
+        <div class="qr-box" id="qrcode"></div>
     </div>
+
+    <div class="footer" id="ticketNum"></div>
+
 </div>
 
 <script>
 const DURATION = 90 * 60;
 
-let startTime = localStorage.getItem("startTime");
-if (!startTime) {
-    startTime = Date.now();
-    localStorage.setItem("startTime", startTime);
+let start = localStorage.getItem("startTime");
+if (!start) {
+    start = Date.now();
+    localStorage.setItem("startTime", start);
 }
 
-let ticketNum = localStorage.getItem("ticketNum");
-if (!ticketNum) {
-    ticketNum = Math.floor(100000 + Math.random() * 900000);
-    localStorage.setItem("ticketNum", ticketNum);
+let number = localStorage.getItem("ticketNum");
+if (!number) {
+    number = Math.floor(100000 + Math.random() * 900000);
+    localStorage.setItem("ticketNum", number);
 }
-
-document.getElementById("ticketNum").innerText =
-    "Номер: " + ticketNum;
 
 document.getElementById("buyTime").innerText =
-    "Придбано: " + new Date(+startTime).toLocaleString("uk-UA");
+    "Придбано: " + new Date(+start).toLocaleString("uk-UA");
+
+document.getElementById("ticketNum").innerText =
+    "№ " + number;
 
 function updateTimer() {
-    const diff = Math.max(0, DURATION - Math.floor((Date.now() - startTime) / 1000));
-    const h = String(Math.floor(diff / 3600)).padStart(2, "0");
-    const m = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
+    const diff = Math.max(0, DURATION - Math.floor((Date.now() - start) / 1000));
+    const m = String(Math.floor(diff / 60)).padStart(2, "0");
     const s = String(diff % 60).padStart(2, "0");
 
     document.getElementById("timer").innerText =
-        `Квиток дійсний — ${h}:${m}:${s}`;
-
-    if (diff === 0)
-        document.getElementById("timer").innerText = "Квиток недійсний";
+        `Дійсний ще: ${m}:${s}`;
 }
 
 setInterval(updateTimer, 1000);
 updateTimer();
 
 new QRCode(document.getElementById("qrcode"), {
-    text: "EDU-TICKET-" + ticketNum,
-    width: 220,
-    height: 220
+    text: "EDU-TICKET-" + number,
+    width: 190,
+    height: 190
 });
 </script>
 
